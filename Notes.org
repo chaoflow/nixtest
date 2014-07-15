@@ -1,0 +1,8 @@
+
+* Thoughts
+
+** produce log output like nixos test driver
+
+** unittest-based tests?
+
+** make tests real modules and import them?
