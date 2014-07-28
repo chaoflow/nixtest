@@ -21,25 +21,6 @@ import tempfile
 from plumbum import local
 
 
-# monkey-patch local to support local._.ls()
-class LocalCommands(object):
-    def __init__(self, local):
-        self.__local = local
-
-    def __getattr__(self, name):
-        try:
-            return self.__local[name]
-        except:
-            raise AttributeError(name)
-
-def local_getattr(self, name):
-    if name != "_":
-        raise AttributeError(name)
-    return LocalCommands(self)
-
-local.__class__.__getattr__ = local_getattr
-
-
 def absjoin(*args):
     return os.path.abspath(os.path.join(*args))
 
@@ -89,7 +70,6 @@ class Succeeds(TestModifier):
 
 def maketestglobs(log, **kw):
     return dict(
-        absjoin=absjoin,
         envvars=envvars,
         fails=Fails(log),
         succeeds=Succeeds(log),
